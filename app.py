@@ -15,7 +15,7 @@ from helper.leetcode import fetch_submissions_for_users
 
 app = Flask(__name__)
 frontendURL = os.environ['FRONTEND_URL']
-CORS(app, origins=[frontendURL])
+CORS(app, resources={r"/api/*": {"origins": frontendURL}})
 
 # Configure logging
 logging.basicConfig(
@@ -27,6 +27,11 @@ logger = logging.getLogger(__name__)
 # jwt setup
 app.config["JWT_SECRET_KEY"] = os.environ['JWT_SECRET_KEY']
 jwt = JWTManager(app)
+
+@app.after_request
+def apply_cors_headers(response):
+    response.headers["Cross-Origin-Opener-Policy"] = "same-origin-allow-popups"
+    return response
 
 @app.route("/api/submissions", methods=["GET"])
 @jwt_required()
