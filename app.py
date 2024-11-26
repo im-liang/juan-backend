@@ -15,7 +15,7 @@ from helper.leetcode import fetch_submissions_for_users
 
 app = Flask(__name__)
 frontendURL = os.environ['FRONTEND_URL']
-CORS(app, origins=[frontendURL, ])
+CORS(app, origins=[frontendURL])
 
 # Configure logging
 logging.basicConfig(

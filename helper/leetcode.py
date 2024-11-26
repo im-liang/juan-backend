@@ -75,6 +75,9 @@ def get_today_unique_submissions(username, submissions):
             seen_slugs.add(title_slug)
             today_submissions.append(submission.get("title"))  # Collect only the title
 
+    if not today_submissions:
+        today_submissions.append("None")
+        
     return {
         "leetcode_username": username,
         "today_submissions": today_submissions  # List of titles only
