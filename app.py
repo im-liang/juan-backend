@@ -14,7 +14,8 @@ from db.db import get_all_users, insert_user, get_user_by_email,update_user_deta
 from helper.leetcode import fetch_submissions_for_users
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}) # avoid CORS issues during local development
+frontendURL = os.environ['FRONTEND_URL']
+CORS(app, origins=[frontendURL, ])
 
 # Configure logging
 logging.basicConfig(
