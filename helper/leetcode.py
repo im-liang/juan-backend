@@ -37,13 +37,19 @@ def filter_by_accepted_and_today(submissions):
     Returns:
         list: Filtered submissions meeting both criteria.
     """
-    return [
-        submission
-        for submission in submissions
-        if submission.get("statusDisplay") == "Accepted" and
-           is_today(submission.get("timestamp", 0))
-    ]
+    filtered_submissions = []
+    
+    for submission in submissions:
+        status = submission.get("statusDisplay")
+        timestamp = submission.get("timestamp", 0)
 
+        if status == "Accepted" and is_today(timestamp):
+            filtered_submissions.append(submission)
+        else:
+            logger.debug(f"Filtered out: {submission}")
+
+    logger.info(f"Filtered submissions: {filtered_submissions}")
+    return filtered_submissions
 
 def filter_by_today(submissions):
     """
@@ -55,11 +61,18 @@ def filter_by_today(submissions):
     Returns:
         list: Filtered submissions made today.
     """
-    return [
-        submission
-        for submission in submissions
-        if is_today(submission.get("timestamp", 0))
-    ]
+    filtered_submissions = []
+    
+    for submission in submissions:
+        timestamp = submission.get("timestamp", 0)
+
+        if is_today(timestamp):
+            filtered_submissions.append(submission)
+        else:
+            logger.debug(f"Filtered out: {submission}")
+
+    logger.info(f"Filtered submissions: {filtered_submissions}")
+    return filtered_submissions
 
 
 async def fetch_user_submission(session, username):
